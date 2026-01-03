@@ -1,5 +1,6 @@
 package med.voll.api.model;
 
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Embedded;
@@ -9,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import med.voll.api.dto.AtualizarMedicoDTO;
@@ -34,6 +36,9 @@ public class Medico {
 	private Endereco endereco;
 
 	private Boolean ativo;
+	
+	@OneToMany(mappedBy = "medico")
+	private List<Consulta> consultas;
 
 	public Medico() {
 	}

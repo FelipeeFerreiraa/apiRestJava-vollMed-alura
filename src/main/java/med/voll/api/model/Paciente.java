@@ -1,10 +1,13 @@
 package med.voll.api.model;
 
+import java.util.List;
+
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -37,6 +40,9 @@ public class Paciente {
 	private Endereco endereco;
 
 	private Boolean ativo;
+
+	@OneToMany(mappedBy = "paciente")
+	private List<Consulta> consultas;
 
 	public Paciente() {
 	}
