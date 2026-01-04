@@ -7,9 +7,13 @@ public record AtualizarMedicoDTO(
 		@NotNull Long id,
 
 		String nome,
+		
+		String email,
 
 		String telefone,
 
 		EnderecoDTO endereco) {
+
+
 
 }

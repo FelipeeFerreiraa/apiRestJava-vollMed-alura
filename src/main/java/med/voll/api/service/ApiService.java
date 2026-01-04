@@ -3,6 +3,7 @@ package med.voll.api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import med.voll.api.dto.ListagemMedicoDTO;
@@ -32,7 +33,7 @@ public class ApiService {
 //				.collect(Collectors.toList());
 	}
 
-	public Page<ListagemPacienteDTO> listarDadosPacientes(Pageable paginacao) {
-		return pacienteRepository.findAllByAtivoTrue(paginacao).map(ListagemPacienteDTO::new);
+	public ResponseEntity<Page<ListagemPacienteDTO>> listarDadosPacientes(Pageable paginacao) {
+		return ResponseEntity.ok(pacienteRepository.findAllByAtivoTrue(paginacao).map(ListagemPacienteDTO::new));
 	}
 }

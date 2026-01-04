@@ -55,6 +55,24 @@ public class Paciente {
 		this.cpf = p.cpf();
 		this.endereco = new Endereco(p.endereco());
 	}
+	
+	
+
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public List<Consulta> getConsultas() {
+		return consultas;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
+
+	public void setConsultas(List<Consulta> consultas) {
+		this.consultas = consultas;
+	}
 
 	public Long getId() {
 		return id;
@@ -112,6 +130,10 @@ public class Paciente {
 
 		if (p.telefone() != null) {
 			this.telefone = p.telefone();
+		}
+		
+		if (p.email() != null) {
+			this.email = p.email();
 		}
 
 		this.endereco.atualizarEndereco(p.endereco());

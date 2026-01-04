@@ -7,6 +7,7 @@ public record AtualizarPacienteDTO(
 		@NotNull
 		Long id,
 		String nome, 
+		String email,
 		String telefone, 
 		EnderecoDTO endereco) {
 

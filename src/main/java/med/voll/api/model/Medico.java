@@ -119,6 +119,24 @@ public class Medico {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
+	
+	
+
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public List<Consulta> getConsultas() {
+		return consultas;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
+
+	public void setConsultas(List<Consulta> consultas) {
+		this.consultas = consultas;
+	}
 
 	@Override
 	public int hashCode() {
@@ -148,12 +166,16 @@ public class Medico {
 		if (json.nome() != null) {
 			this.nome = json.nome();
 		}
+		
+		if (json.email() != null) {
+			this.email = json.email();
+		}
 
-		if (json.nome() != null) {
+		if (json.telefone() != null) {
 			this.telefone = json.telefone();
 		}
 
-		if (json.nome() != null) {
+		if (json.endereco() != null) {
 			this.endereco.atualizarEndereco(json.endereco());
 		}
 
