@@ -70,7 +70,6 @@ public class MedicoController {
 			@PageableDefault(size = 10, sort = { "nome" }) Pageable paginacao) {
 
 		var retorno = service.listarDadosMedico(paginacao);
-
 		return ResponseEntity.ok(retorno);
 	}
 
@@ -93,5 +92,7 @@ public class MedicoController {
 
 		return ResponseEntity.noContent().build();
 	}
+	
+	
 
 }
