@@ -45,6 +45,19 @@ public class SecurityConfig {
 
 				}).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class).build();
 	}
+	
+//	@Bean
+//	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//	    return http.csrf().disable()
+//	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//	        .and().authorizeHttpRequests()
+//	        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+//	        .requestMatchers(HttpMethod.DELETE, "/medicos").hasRole("ADMIN")
+//	        .requestMatchers(HttpMethod.DELETE, "/pacientes").hasRole("ADMIN")
+//	        .anyRequest().authenticated()
+//	        .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+//	        .build();
+//	}
 
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {

@@ -1,14 +1,16 @@
 package med.voll.api.model;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import med.voll.api.dto.ConsultaDTO;
 
 @Entity
 @Table(name = "consultas")
@@ -18,28 +20,40 @@ public class Consulta {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne()
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Paciente paciente;
 
-	@ManyToOne()
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Medico medico;
 
-	private OffsetDateTime horario;
+	private LocalDateTime horario;
+
+	private Boolean ativo;
 
 	public Consulta() {
 	}
 
-	public Consulta(Paciente paciente, Medico medico, OffsetDateTime horario) {
+	@Enumerated(EnumType.STRING)
+	private CancelamentoConsulta motivoCancelamento;
+
+	public Consulta(Paciente paciente, Medico medico, LocalDateTime horario) {
+		this.ativo = true;
 		this.paciente = paciente;
 		this.medico = medico;
 		this.horario = horario;
 	}
 
-	public Consulta(ConsultaDTO c) {
-		this.paciente = c.paciente();
-		this.medico = c.medico();
-		this.horario = c.horario();
-	}
+//	public Consulta(ConsultaDTO dados) {
+//		this.paciente = paciente;
+//		this.medico = new Medico();
+//		this.horario = horario;
+//	}
+
+//	public Consulta(ConsultaDTO c) {
+//		this.paciente = c.paciente();
+//		this.medico = c.medico();
+//		this.horario = c.horario();
+//	}
 
 	public Long getId() {
 		return id;
@@ -53,7 +67,7 @@ public class Consulta {
 		return medico;
 	}
 
-	public OffsetDateTime getHorario() {
+	public LocalDateTime getHorario() {
 		return horario;
 	}
 
@@ -69,8 +83,13 @@ public class Consulta {
 		this.medico = medico;
 	}
 
-	public void setHorario(OffsetDateTime horario) {
+	public void setHorario(LocalDateTime horario) {
 		this.horario = horario;
+	}
+
+	public void cancelar(CancelamentoConsulta motivo) {
+		this.ativo = false;
+		this.motivoCancelamento = motivo;
 	}
 
 	@Override

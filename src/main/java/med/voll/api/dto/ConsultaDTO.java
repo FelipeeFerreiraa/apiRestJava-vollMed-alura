@@ -1,20 +1,22 @@
 package med.voll.api.dto;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
-import med.voll.api.model.Medico;
-import med.voll.api.model.Paciente;
+import med.voll.api.model.Especialidade;
 
 public record ConsultaDTO(
+
+		@NotNull 
+		Long idPaciente,
+
+		Long idMedico,
+
+		@NotNull 
+		@Future 
+		LocalDateTime horario,
 		
-		@NotNull
-		Paciente paciente, 
-		
-		@NotNull
-		Medico medico, 
-		
-		@NotNull
-		OffsetDateTime horario) {
+		Especialidade especialidade) {
 
 }

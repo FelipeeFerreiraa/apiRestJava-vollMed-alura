@@ -14,6 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import med.voll.api.dto.AtualizarMedicoDTO;
+import med.voll.api.dto.ConsultaDTO;
 import med.voll.api.dto.MedicoDTO;
 
 @Entity
@@ -64,6 +65,17 @@ public class Medico {
 		this.endereco = new Endereco(m.endereco());
 	}
 
+//	public Medico(ConsultaDTO m) {
+//		
+//		this.ativo = true;
+//		this.nome = m.nome();
+//		this.email = m.email();
+//		this.crm = m.crm();
+//		this.telefone = m.telefone();
+//		this.especialidade = m.especialidade();
+//		this.endereco = new Endereco(m.endereco());
+//	}
+	
 	public Long getId() {
 		return id;
 	}
