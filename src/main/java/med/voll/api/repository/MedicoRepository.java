@@ -14,17 +14,25 @@ import med.voll.api.model.Medico;
 public interface MedicoRepository extends JpaRepository<Medico, Long> {
 
 	public Page<Medico> findAllByAtivoTrue(Pageable paginacao);
-	
+
 	public Optional<Medico> findById(Long id);
-	
-	@Query(""" 
+
+	@Query("""
+			SELECT m.ativo FROM Medico m
+			WHERE m.id = :id
+			""")
+	public Boolean findAtivoById(Long id);
+
+	@Query("""
 			SELECT m FROM Medico m
 			WHERE m.ativo = true
 			AND m.especialidade = :especialidade
 			AND m.id NOT IN(
 						SELECT c.medico.id FROM Consulta c
 						WHERE c.horario = :horario
+						AND c.motivoCancelamento IS NULL
 			)
+			
 			ORDER BY RAND()
 			LIMIT 1
 			""")

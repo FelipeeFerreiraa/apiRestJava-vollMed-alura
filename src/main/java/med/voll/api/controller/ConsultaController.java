@@ -13,7 +13,6 @@ import jakarta.validation.Valid;
 import med.voll.api.dto.CancelamentoConsultaDTO;
 import med.voll.api.dto.ConsultaDTO;
 import med.voll.api.dto.DetalhandoConsultaDTO;
-import med.voll.api.exception.ValidacaoException;
 import med.voll.api.service.ValidarConsultaService;
 
 @RestController
@@ -27,9 +26,8 @@ public class ConsultaController {
 	@Transactional
 	public ResponseEntity adicionarConsulta(@RequestBody @Valid ConsultaDTO dados) {
 		System.out.println(dados);
-		consultaService.validarConsulta(dados);
-		return ResponseEntity
-				.ok(new DetalhandoConsultaDTO(null, dados.idMedico(), dados.idPaciente(), dados.horario()));
+		
+		return ResponseEntity.ok(consultaService.validarConsulta(dados));
 	}
 
 	@DeleteMapping

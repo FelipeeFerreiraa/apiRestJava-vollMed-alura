@@ -2,7 +2,16 @@ package med.voll.api.dto;
 
 import java.time.LocalDateTime;
 
+import med.voll.api.model.Consulta;
+
 public record DetalhandoConsultaDTO(Long id, Long idMedico, Long idPaciente, LocalDateTime horario) {
+
+	public DetalhandoConsultaDTO(Consulta c) {
+		this(	c.getId(), 
+				c.getMedico().getId(),
+				c.getPaciente().getId(), 
+				c.getHorario());
+	}
 }
 
 //public record DetalhandoConsultaDTO(Long idPaciente, String nomePaciente, String emailPaciente, String telefonePaciente,

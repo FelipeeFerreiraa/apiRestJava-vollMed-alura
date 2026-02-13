@@ -1,14 +1,14 @@
 package med.voll.api.service;
 
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import med.voll.api.dto.CancelamentoConsultaDTO;
 import med.voll.api.dto.ConsultaDTO;
+import med.voll.api.dto.DetalhandoConsultaDTO;
 import med.voll.api.exception.ValidacaoException;
 import med.voll.api.model.Consulta;
 import med.voll.api.model.Medico;
@@ -16,6 +16,7 @@ import med.voll.api.model.Paciente;
 import med.voll.api.repository.ConsultaRepository;
 import med.voll.api.repository.MedicoRepository;
 import med.voll.api.repository.PacienteRepository;
+import med.voll.api.service.validacoes.ValidadorAgendamentoDeConsulta;
 
 @Service
 public class ValidarConsultaService {
@@ -29,7 +30,10 @@ public class ValidarConsultaService {
 	@Autowired
 	private PacienteRepository pacienteRepositorio;
 
-	public void validarConsulta(ConsultaDTO dto) {
+	@Autowired
+	private List<ValidadorAgendamentoDeConsulta> validadores;
+
+	public DetalhandoConsultaDTO validarConsulta(ConsultaDTO dto) {
 
 		if (dto.idMedico() != null && !medicoRepositorio.existsById(dto.idMedico())) {
 			throw new ValidacaoException("ID MEDICO NÃO CADASTRADO NO BANCO...");
@@ -39,30 +43,21 @@ public class ValidarConsultaService {
 			throw new ValidacaoException("ID PACIENTE NÃO CADASTRADO NO BANCO...");
 		}
 
-		// validarDiaConsulta(dto);
-		// validarHorarioReservaMenosDe30Min(dto);
+		validadores.forEach(v -> v.validar(dto)); 
 
 		Medico medico = escolheMedicoDisponivel(dto); // medicoRepositorio.findById(dto.idMedico()).get();
+		
+		if(medico == null) {
+			throw new ValidacaoException("NÃO EXISTE MÉDICO DISPONÍVEL NESSA DATA...");
+		}
 
 		Paciente paciente = pacienteRepositorio.findById(dto.idPaciente()).get();
 
 		Consulta consulta = new Consulta(paciente, medico, dto.horario());
 
 		consultaRepositorio.save(consulta);
-	}
-
-	public void validarDiaConsulta(ConsultaDTO dto) {
-		LocalDateTime data = dto.horario();
-
-		DayOfWeek dia = data.getDayOfWeek();
-		LocalTime hora = data.toLocalTime();
-
-		boolean domingo = dia == DayOfWeek.SUNDAY;
-		boolean foraHorario = hora.isBefore(LocalTime.of(7, 0)) || hora.isAfter(LocalTime.of(19, 0));
-
-		if (domingo || foraHorario) {
-			throw new ValidacaoException("Consulta fora do horário de funcionamento");
-		}
+		
+		return new DetalhandoConsultaDTO(consulta);
 	}
 
 	public void validarHorarioReservaMenosDe30Min(ConsultaDTO dto) {
