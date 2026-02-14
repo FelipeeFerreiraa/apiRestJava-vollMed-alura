@@ -41,11 +41,14 @@ public class SecurityConfig {
 				.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(req -> {
 					req.requestMatchers("/login").permitAll();
+					req.requestMatchers("/v3/api-docs/**").permitAll();
+					req.requestMatchers("/swagger-ui.html").permitAll();
+					req.requestMatchers("/swagger-ui/**").permitAll();
 					req.anyRequest().authenticated();
 
 				}).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class).build();
 	}
-	
+
 //	@Bean
 //	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //	    return http.csrf().disable()

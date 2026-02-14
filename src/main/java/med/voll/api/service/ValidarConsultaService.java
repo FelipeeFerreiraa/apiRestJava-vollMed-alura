@@ -43,20 +43,20 @@ public class ValidarConsultaService {
 			throw new ValidacaoException("ID PACIENTE NÃO CADASTRADO NO BANCO...");
 		}
 
-		validadores.forEach(v -> v.validar(dto)); 
+		validadores.forEach(v -> v.validar(dto));
 
 		Medico medico = escolheMedicoDisponivel(dto); // medicoRepositorio.findById(dto.idMedico()).get();
-		
-		if(medico == null) {
+
+		if (medico == null) {
 			throw new ValidacaoException("NÃO EXISTE MÉDICO DISPONÍVEL NESSA DATA...");
 		}
 
 		Paciente paciente = pacienteRepositorio.findById(dto.idPaciente()).get();
 
-		Consulta consulta = new Consulta(paciente, medico, dto.horario());
+		Consulta consulta = new Consulta(medico, paciente, dto.horario());
 
 		consultaRepositorio.save(consulta);
-		
+
 		return new DetalhandoConsultaDTO(consulta);
 	}
 

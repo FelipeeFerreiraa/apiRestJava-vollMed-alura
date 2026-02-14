@@ -8,15 +8,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import med.voll.api.dto.CancelamentoConsultaDTO;
 import med.voll.api.dto.ConsultaDTO;
-import med.voll.api.dto.DetalhandoConsultaDTO;
 import med.voll.api.service.ValidarConsultaService;
 
 @RestController
 @RequestMapping("consultas")
+@SecurityRequirement(name = "bearer-key")
 public class ConsultaController {
 
 	@Autowired
@@ -26,7 +27,7 @@ public class ConsultaController {
 	@Transactional
 	public ResponseEntity adicionarConsulta(@RequestBody @Valid ConsultaDTO dados) {
 		System.out.println(dados);
-		
+
 		return ResponseEntity.ok(consultaService.validarConsulta(dados));
 	}
 
